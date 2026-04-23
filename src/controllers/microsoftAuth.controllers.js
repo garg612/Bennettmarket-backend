@@ -1,12 +1,9 @@
 import { User } from "../models/user.models.js";
 import { Apierror } from "../utils/Apierror.js";
 import { Apiresponse } from "../utils/apiresponse.js";
+import { getAuthCookieOptions } from "../utils/authCookie.js";
 
-const cookieOptions = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict"
-};
+const cookieOptions = getAuthCookieOptions();
 
 const getFrontendBaseUrl = () => process.env.FRONTEND_URL || "http://localhost:5173";
 const getSuccessRedirectUrl = () =>

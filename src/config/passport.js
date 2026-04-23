@@ -20,6 +20,10 @@ const getOAuthProfile = (profile) => {
 const createOAuthPassword = () => `oauth_${crypto.randomBytes(24).toString("hex")}`;
 
 const getMicrosoftTenant = () => process.env.MICROSOFT_TENANT_ID?.trim();
+const getPublicBaseUrl = () => process.env.PUBLIC_BASE_URL?.trim();
+const getMicrosoftCallbackUrl = () =>
+    process.env.MICROSOFT_CALLBACK_URL?.trim() ||
+    (getPublicBaseUrl() ? `${getPublicBaseUrl().replace(/\/+$/, "")}/auth/microsoft/callback` : "");
 
 const getMicrosoftAuthority = () => {
     const tenant = getMicrosoftTenant();
@@ -38,7 +42,7 @@ export const isMicrosoftOAuthConfigured = () =>
     Boolean(
         process.env.MICROSOFT_CLIENT_ID &&
             process.env.MICROSOFT_CLIENT_SECRET &&
-            process.env.MICROSOFT_CALLBACK_URL &&
+            getMicrosoftCallbackUrl() &&
             getMicrosoftTenant()
     );
 
@@ -56,7 +60,7 @@ export const configurePassport = () => {
                 ...getMicrosoftAuthority(),
                 clientID: process.env.MICROSOFT_CLIENT_ID,
                 clientSecret: process.env.MICROSOFT_CLIENT_SECRET,
-                callbackURL: process.env.MICROSOFT_CALLBACK_URL,
+                callbackURL: getMicrosoftCallbackUrl(),
                 scope: ["openid", "profile", "email", "User.Read"]
             },
             async (_accessToken, _refreshToken, profile, done) => {

@@ -9,8 +9,9 @@ import { configurePassport } from './config/passport.js';
 
 const app=express();
 
-const allowedOrigins = (process.env.CORS_ORIGIN || '')
-    .split(',')
+const allowedOrigins = [process.env.CORS_ORIGIN, process.env.FRONTEND_URL, process.env.PUBLIC_BASE_URL]
+    .filter(Boolean)
+    .flatMap((origin) => origin.split(','))
     .map((origin) => origin.trim())
     .filter(Boolean);
 

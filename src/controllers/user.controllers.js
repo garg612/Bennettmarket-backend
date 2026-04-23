@@ -5,12 +5,9 @@ import { Apierror } from "../utils/Apierror.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { Resend } from "resend";
+import { getAuthCookieOptions } from "../utils/authCookie.js";
 
-const cookieOptions = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict"
-};
+const cookieOptions = getAuthCookieOptions();
 
 const OTP_TTL_MINUTES = Number(process.env.STUDENT_OTP_EXPIRY_MINUTES || 10);
 const OTP_RESEND_COOLDOWN_SECONDS = Number(process.env.STUDENT_OTP_RESEND_COOLDOWN_SECONDS || 60);
