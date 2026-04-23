@@ -8,7 +8,7 @@ import passport from 'passport';
 import { configurePassport } from './config/passport.js';
 
 const app=express();
-
+app.set("trust proxy", 1);
 const allowedOrigins = [process.env.CORS_ORIGIN, process.env.FRONTEND_URL, process.env.PUBLIC_BASE_URL]
     .filter(Boolean)
     .flatMap((origin) => origin.split(','))
