@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+src/.env
+node_modules/
+public/temp/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
