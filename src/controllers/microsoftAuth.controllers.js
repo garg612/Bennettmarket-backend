@@ -43,7 +43,7 @@ export const finalizeMicrosoftLogin = async (req, res, next) => {
             throw new Apierror(404, "user not found after Microsoft authentication");
         }
 
-        const redirectUrl = `${getSuccessRedirectUrl()}?token=${accessToken}`;
+        const redirectUrl = `${getSuccessRedirectUrl()}#accessToken=${encodeURIComponent(accessToken)}&refreshToken=${encodeURIComponent(refreshToken)}`;
 
         res
             .cookie("accessToken", accessToken, cookieOptions)
